@@ -17,14 +17,26 @@ public class InitData {
 
     @PostConstruct
     public void saveUsers() {
+
+        // role 정의 방법 1
+//        UserDetails userA = User.withUsername("jinseok")
+//                .password("1234")
+//                .authorities("ROLE_ADMIN")
+//                .build();
+//
+//        UserDetails userB = User.withUsername("suchon")
+//                .password("1234")
+//                .authorities("ROLE_MANAGER")
+//                .build();
+
         UserDetails userA = User.withUsername("jinseok")
                 .password("1234")
-                .authorities("WRITE", "READ", "UPDATE")
+                .roles("ADMIN")
                 .build();
 
         UserDetails userB = User.withUsername("suchon")
                 .password("1234")
-                .authorities("READ")
+                .roles("MANAGER")
                 .build();
 
         UserDetailsManager userDetailsService = (UserDetailsManager) this.userDetailsService;
