@@ -29,6 +29,7 @@ public class InitData {
 //                .authorities("ROLE_MANAGER")
 //                .build();
 
+        // role 정의 방법 2
         UserDetails userA = User.withUsername("jinseok")
                 .password("1234")
                 .roles("ADMIN")

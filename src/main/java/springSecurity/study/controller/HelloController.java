@@ -8,28 +8,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class HelloController {
 
-    @GetMapping("/a")
-    public String getEndpointA() {
-        return "Works!";
+    @GetMapping("helloMvc")
+    public String helloMvc() {
+        return "hello mvc matchers!!";
     }
 
-    @GetMapping("/a/{more}")
-    public String getEndpointA(@PathVariable String more) {
-        return more;
-    }
-
-    @PostMapping("/a")
-    public String postEndpointA() {
-        return "Works!";
-    }
-
-    @GetMapping("/b")
-    public String getEndpointB() {
-        return "Works!";
-    }
-
-    @PostMapping("/b")
-    public String postEndpointB() {
-        return "Works!";
+    @GetMapping("helloAnt")
+    public String helloAnt() {
+        return "hello ant matchers!!";
     }
 }

@@ -16,15 +16,30 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class ProjectConfiguration {
 
+//    @Bean
+//    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+//        http.httpBasic();
+//
+//        http.authorizeRequests()
+//                .antMatchers("/a").denyAll()
+//                .mvcMatchers(HttpMethod.GET, "/a/**").authenticated()
+//                .mvcMatchers(HttpMethod.GET, "/a/{more:^[0-9]*$}").authenticated() // 정규식도 사용 가능
+//                .mvcMatchers(HttpMethod.POST, "/a/**").permitAll()
+//                .anyRequest().permitAll();
+//
+//        http.csrf().disable();
+//
+//        return http.build();
+//    }
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.httpBasic();
 
         http.authorizeRequests()
-//                .mvcMatchers(HttpMethod.GET, "/a/**").authenticated()
-                .mvcMatchers(HttpMethod.GET, "/a/{more:^[0-9]*$}").authenticated() // 정규식도 사용 가능
-                .mvcMatchers(HttpMethod.POST, "/a/**").permitAll()
-                .anyRequest().denyAll();
+                .mvcMatchers(HttpMethod.GET, "/helloMvc").denyAll()
+                .antMatchers(HttpMethod.GET, "/helloAnt").denyAll()
+                .anyRequest().permitAll();
 
         http.csrf().disable();
 
