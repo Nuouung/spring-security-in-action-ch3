@@ -12,6 +12,11 @@ public class HelloController {
 
     @GetMapping("/hello")
     public String hello(HttpServletRequest request) {
-        return request.getHeader("Request-Id");
+
+        String requestId = request.getHeader("Request-Id");
+        String loggingResult = (Boolean) request.getAttribute("loggingResult") ?
+                "인증 로그 기록 완료" : "인증 로그 기록 실패";
+
+        return requestId + " (" + loggingResult + ")";
     }
 }
