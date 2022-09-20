@@ -1,4 +1,4 @@
-package springSecurity.study.security.filter;
+package springSecurity.study.security.csrf.filter;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.web.csrf.CsrfToken;
