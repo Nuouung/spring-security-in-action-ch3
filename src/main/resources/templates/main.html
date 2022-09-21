@@ -3,14 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script>
+        const http = new XMLHttpRequest();
+        const url = 'http://localhost:8080/hello';
+
+        http.open('POST', url);
+        http.send();
+
+        http.onreadystatechange = () => {
+            const output = document.getElementById('output');
+            output.innerHTML = http.responseText;
+        }
+
+        /*
+        http.onreadystatechange = function () {
+            const output = document.getElementById('output');
+            output.innerHTML = http.responseText;
+        } 같은 표현
+        */
+    </script>
 </head>
 <body>
-    <form action="/product/add" method="POST">
-
-        <input type="hidden" th:name="${_csrf.getParameterName()}" th:value="${_csrf.token}">
-
-        <span>이름: </span><span><input type="text" name="name"></span>
-        <button type="submit">추가</button>
-    </form>
+    <div id="output"></div>
 </body>
 </html>
