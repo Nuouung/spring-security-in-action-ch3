@@ -18,6 +18,9 @@ public class Token {
     private String identifier;
     private String token;
 
+    public Token() {
+    }
+
     public Token(String identifier, String token) {
         this.identifier = identifier;
         this.token = token;
