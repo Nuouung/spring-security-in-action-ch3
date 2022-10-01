@@ -1,12 +1,7 @@
 package springSecurity.study.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import springSecurity.study.entity.User;
+import springSecurity.study.model.User;
 
-import java.util.Optional;
-
-public interface UserRepository extends JpaRepository<User, Integer> {
-
-    Optional<User> findUserByUsername(String username);
-
+public interface UserRepository extends JpaRepository<User, String> {
 }
