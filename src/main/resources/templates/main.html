@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script>
+        const http = new XMLHttpRequest();
+        const url = 'http://localhost:8080/hello';
+
+        http.open('POST', url);
+        http.send();
+
+        http.onreadystatechange = () => {
+            const output = document.getElementById('output');
+            output.innerHTML = http.responseText;
+        }
+
+        /*
+        http.onreadystatechange = function () {
+            const output = document.getElementById('output');
+            output.innerHTML = http.responseText;
+        } 같은 표현
+        */
+    </script>
+</head>
+<body>
+    <div id="output"></div>
+</body>
+</html>
