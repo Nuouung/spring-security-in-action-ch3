@@ -1,9 +1,11 @@
 package springSecurity.study.security.configuration;
 
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
@@ -30,13 +32,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .inMemoryAuthentication()
                 .withUser("manager")
                 .password(password)
-                .roles("MANAGER");
+                .roles("MANAGER", "USER");
 
         auth
                 .inMemoryAuthentication()
                 .withUser("admin")
                 .password(password)
-                .roles("ADMIN");
+                .roles("ADMIN", "USER", "MANAGER");
     }
 
     @Bean
@@ -46,10 +48,20 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
 
     @Override
+    public void configure(WebSecurity web) throws Exception {
+        web
+                .ignoring()
+                .requestMatchers(PathRequest.toStaticResources().atCommonLocations());
+
+        // httpSecurity.antMatchers("/css/**").permitAll() 과의 차이는
+        // httpSecurity는 보안 필터에 들어간 후 필터를 통과하는 것이고
+        // webSecurity는 보안 필터에 들어가지도 않는다는 것
+    }
+    @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/").permitAll()
+                .antMatchers("/", "/users").permitAll()
                 .antMatchers("/mypage").hasRole("USER")
                 .antMatchers("/messages").hasRole("MANAGER")
                 .antMatchers("/configuration").hasRole("ADMIN")
