@@ -14,6 +14,11 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import springSecurity.study.security.common.FormAuthenticationDetailsSource;
+import springSecurity.study.security.handler.CustomAccessDeniedHandler;
+import springSecurity.study.security.handler.CustomAuthenticationFailureHandler;
+import springSecurity.study.security.handler.CustomAuthenticationHandler;
 import springSecurity.study.security.provider.CustomAuthenticationProvider;
 
 import java.security.cert.Extension;
@@ -24,7 +29,10 @@ import java.security.cert.Extension;
 @Order(1)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    /*@Override
+    private final FormAuthenticationDetailsSource formAuthenticationDetailsSource;
+    private final AuthenticationSuccessHandler customAuthenticationSuccessHandler;
+
+    @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 
         String password = passwordEncoder().encode("1234");
@@ -46,7 +54,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .withUser("admin")
                 .password(password)
                 .roles("ADMIN", "USER", "MANAGER");
-    }*/
+    }
 
     /*@Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -74,13 +82,24 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/", "/users").permitAll()
+                .antMatchers("/", "/users", "/login*").permitAll()
                 .antMatchers("/mypage").hasRole("USER")
                 .antMatchers("/messages").hasRole("MANAGER")
                 .antMatchers("/configuration").hasRole("ADMIN")
                 .anyRequest().authenticated()
 
                 .and()
-                .formLogin();
+                .formLogin()
+                .loginPage("/login")
+                .loginProcessingUrl("/login_proc")
+                .authenticationDetailsSource(formAuthenticationDetailsSource)
+                .successHandler(new CustomAuthenticationHandler())
+                .failureHandler(new CustomAuthenticationFailureHandler())
+                .defaultSuccessUrl("/")
+                .permitAll()
+
+                .and()
+                .exceptionHandling()
+                .accessDeniedHandler(new CustomAccessDeniedHandler("/denied"));
     }
 }
